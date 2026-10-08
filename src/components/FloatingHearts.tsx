@@ -203,20 +203,40 @@ export default function FloatingHearts() {
       frame = requestAnimationFrame(tick);
     };
 
-    const onMove = (e: PointerEvent) => {
-      pointer.x = e.clientX;
-      pointer.y = e.clientY;
+    const setPointer = (x: number, y: number) => {
+      pointer.x = x;
+      pointer.y = y;
       pointer.active = true;
     };
     const onLeave = () => {
       pointer.active = false;
     };
+
+    // 마우스·펜: 포인터 이벤트로 추적
+    // (터치는 스크롤이 시작되면 pointercancel 후 pointermove가 끊기므로 아래 터치 이벤트로 따로 처리)
+    const onMove = (e: PointerEvent) => {
+      if (e.pointerType === "touch") return;
+      setPointer(e.clientX, e.clientY);
+    };
     const onOut = (e: PointerEvent) => {
+      if (e.pointerType === "touch") return;
       if (!e.relatedTarget) onLeave();
     };
-    // 터치는 손가락을 떼면 커서가 사라진 것으로 처리
     const onUp = (e: PointerEvent) => {
-      if (e.pointerType !== "mouse") onLeave();
+      if (e.pointerType === "pen") onLeave();
+    };
+    const onCancel = (e: PointerEvent) => {
+      if (e.pointerType !== "touch") onLeave();
+    };
+
+    // 터치: 누른 채로 손가락을 움직이는 동안(스크롤 중에도) 계속 따라가며 피함
+    const onTouch = (e: TouchEvent) => {
+      const touch = e.touches[0];
+      if (touch) setPointer(touch.clientX, touch.clientY);
+    };
+    const onTouchEnd = (e: TouchEvent) => {
+      if (e.touches.length === 0) onLeave();
+      else onTouch(e);
     };
 
     resize();
@@ -225,8 +245,12 @@ export default function FloatingHearts() {
       window.addEventListener("pointermove", onMove, { passive: true });
       window.addEventListener("pointerdown", onMove, { passive: true });
       window.addEventListener("pointerup", onUp);
-      window.addEventListener("pointercancel", onLeave);
+      window.addEventListener("pointercancel", onCancel);
       document.addEventListener("pointerout", onOut);
+      window.addEventListener("touchstart", onTouch, { passive: true });
+      window.addEventListener("touchmove", onTouch, { passive: true });
+      window.addEventListener("touchend", onTouchEnd);
+      window.addEventListener("touchcancel", onTouchEnd);
       frame = requestAnimationFrame(tick);
     }
 
@@ -236,8 +260,12 @@ export default function FloatingHearts() {
       window.removeEventListener("pointermove", onMove);
       window.removeEventListener("pointerdown", onMove);
       window.removeEventListener("pointerup", onUp);
-      window.removeEventListener("pointercancel", onLeave);
+      window.removeEventListener("pointercancel", onCancel);
       document.removeEventListener("pointerout", onOut);
+      window.removeEventListener("touchstart", onTouch);
+      window.removeEventListener("touchmove", onTouch);
+      window.removeEventListener("touchend", onTouchEnd);
+      window.removeEventListener("touchcancel", onTouchEnd);
     };
   }, []);
 
