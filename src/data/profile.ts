@@ -11,9 +11,9 @@ export type LinkItem = {
 };
 
 export const profile: Profile = {
-  name: "return to me",
+  name: "Return to me",
   bio: "나와 내 인연을 찾는 시간",
-  imageUrl: "/profile.svg",
+  imageUrl: "/profile.png",
 };
 
 // TODO: 실제 링크로 교체하세요.

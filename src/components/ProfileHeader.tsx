@@ -7,12 +7,12 @@ export default function ProfileHeader({ profile }: { profile: Profile }) {
       <Image
         src={profile.imageUrl}
         alt={`${profile.name} 프로필 사진`}
-        width={192}
-        height={192}
+        width={150}
+        height={150}
         priority
-        className="h-40 w-40 rounded-full object-cover ring-4 ring-white shadow-md sm:h-48 sm:w-48 dark:ring-zinc-800"
+        className="h-[150px] w-[150px] rounded-full object-cover ring-4 ring-white shadow-md dark:ring-zinc-800"
       />
-      <h1 className="mt-6 text-xl font-semibold tracking-tight">
+      <h1 className="mt-6 text-xl font-bold tracking-tight">
         {profile.name}
       </h1>
       <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
