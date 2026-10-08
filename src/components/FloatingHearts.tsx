@@ -13,7 +13,7 @@ const HEART_PATHS = [
 ];
 
 // 화면 채우기 비율: 높을수록 하트가 크고 빽빽함 (둥둥 움직일 여유를 남기려면 0.6 이하 권장)
-const FILL_RATIO = 0.55;
+const FILL_RATIO = 0.3;
 const GAP = 4; // 하트 사이 최소 간격(px)
 
 // 둥둥 떠다니기
@@ -21,8 +21,8 @@ const BOB_AMOUNT = 0.3; // 하트 크기 대비 흔들리는 폭
 const BOB_SPEED = 0.6;
 
 // 커서 회피
-const REPEL_RADIUS = 170; // 이 거리(px) 안으로 커서가 오면 하트가 피함
-const REPEL_FORCE = 2.4; // 밀어내는 힘
+const REPEL_RADIUS = 230; // 이 거리(px) 안으로 커서가 오면 하트가 피함
+const REPEL_FORCE = 5; // 밀어내는 힘
 const SWIRL = 0.35; // 옆으로 휘돌아 나가는 정도 (물결 느낌)
 const SPRING = 0.02; // 제자리로 돌아오려는 힘
 const DAMPING = 0.9; // 낮을수록 빨리 멈추고, 높을수록 오래 출렁임
